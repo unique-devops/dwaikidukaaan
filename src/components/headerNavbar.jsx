@@ -14,7 +14,7 @@ export default function HeaderNavbar() {
                 <MenuSidebar/>                
                 <div className="p-2 min-w-40 col-span-2">
                     <span onClick={() => router.push("/")} className="relative inline-block cursor-pointer before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-sky-500">
-                        <span className="relative text-white dark:text-gray-950">Pharma Ki Dukaan</span>
+                        <span className="relative text-white dark:text-gray-950">Dawai Ki Dukaan</span>
                     </span>
                 </div>
             </div>
@@ -24,8 +24,8 @@ export default function HeaderNavbar() {
                 <input
                     id="price"
                     name="price"
-                    type="text"
-                    placeholder="0.00"
+                    type="search"
+                    placeholder="Search by Concern, Product or Brand (Example Acne, Weight Loss etc)"
                     className="block min-w-0 grow py-2 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                 />               
             </div>

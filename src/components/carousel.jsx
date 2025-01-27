@@ -1,57 +1,63 @@
+'use client'
+import Image from 'next/image'
+import { useState, useEffect } from 'react';
 
 
-import PropTypes from 'prop-types';
+const images = [
+    { src: 'Anomaly_Banners_942x836_1_.jpg', alt: 'Anomaly_Banners', width: 500, height: 300 },
+    { src: 'Bellavita_Banners_942x836_-_02.jpg', alt: 'Bellavita_Banners_942x836', width: 500, height: 300 },
+    { src: 'Boheco_Banners_02_942x836_1_.jpg', alt: 'Boheco_Banners_02_942x836_1_', width: 500, height: 300 },
+    { src: 'Korean_Banners_942x836_.jpg', alt: 'Korean_Banners_942x836_', width: 500, height: 300 },
+    { src: 'Minimalist_Banners_942x836_a.jpg', alt: 'Minimalist_Banners_942x836_a', width: 500, height: 300 },
+    { src: 'Tru_Diagno_Banners_942x836_.png', alt: 'Tru_Diagno_Banners_942x836_', width: 500, height: 300 },
+];
 
-const SliderCarousel = ({ imagePaths }) => {
+const Carousel = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const nextSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? images.length - 1 : prevIndex - 1
+        );
+    };
+
+    useEffect(() => {
+        const interval = setInterval(nextSlide, 3000);
+        return () => clearInterval(interval); // Cleanup on component unmount
+    }, []);
     return (
-
-        <div id="default-carousel" className="relative w-full" data-carousel="slide">
-            {/* <!-- Carousel wrapper --> */}
-            <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-                {imagePaths.map((image, index) => (
-                    <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img
-                            key={index}
-                            src={`/images/carousel/${image}`}
-                            alt={`Carousel Image ${index + 1}`}
-                            width={500} // Adjust size as needed
-                            height={300} // Adjust size as needed
-                            className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        />
-                    </div>
-                ))}                
-            </div>
-            <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
-            </div>
-            {/* <!-- Slider controls --> */}
-            <button type="button" className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-                    </svg>
-                    <span className="sr-only">Previous</span>
-                </span>
+        <div className="relative h-full justify-center item-center rounded-lg">
+            <Image
+                    src={`/images/carousel/${images[currentIndex].src}`}
+                    alt={images[currentIndex].alt}
+                    width={images[currentIndex].width} // Adjust size as needed
+                    height={images[currentIndex].height} // Adjust size as needed
+                    objectFit="cover"
+                    className="absolute block h-full w-full duration-700 ease-in-out" />
+                     {/* Previous Button */}
+            <button
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 text-white text-4xl bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition duration-200"
+            >
+                &#10094;
             </button>
-            <button type="button" className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                    </svg>
-                    <span className="sr-only">Next</span>
-                </span>
+            {/* Next Button */}
+            <button
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 text-white text-4xl bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition duration-200"
+            >
+                &#10095;
             </button>
+           
         </div>
-
-    )
+    );
 };
 
-SliderCarousel.propTypes = {
-    imagePaths: PropTypes.arrayOf(PropTypes.string).isRequired,
-  };
 
-  export default SliderCarousel;
+export default Carousel;
